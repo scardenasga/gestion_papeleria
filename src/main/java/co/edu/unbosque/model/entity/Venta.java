@@ -29,6 +29,7 @@ public class Venta implements Serializable {
 
 	@Id
 	@Column(name="id_venta")
+	@GeneratedValue(strategy = GenerationType.IDENTITY) 
 	private Long idVenta;
 
 	@Column(name="fecha_venta")

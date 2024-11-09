@@ -28,6 +28,7 @@ public class CuentaContable implements Serializable {
 
 	@Id
 	@Column(name="id_cuenta", columnDefinition = "smallserial")
+	@GeneratedValue(strategy = GenerationType.IDENTITY) 
 	private Short idCuenta;
 
 	@Column(name = "nombre")
@@ -39,7 +40,7 @@ public class CuentaContable implements Serializable {
 	private TipoCuenta tipo;
 
 	//bi-directional many-to-one association to DetalleContable
-	@OneToMany(mappedBy="cuentaContable")
+	@OneToMany( fetch = FetchType.EAGER, mappedBy="cuentaContable")
 	@Builder.Default
 	private List<DetalleContable> detalleContables = new ArrayList<>();
 

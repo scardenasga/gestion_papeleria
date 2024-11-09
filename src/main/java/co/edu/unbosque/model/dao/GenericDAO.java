@@ -2,14 +2,13 @@ package co.edu.unbosque.model.dao;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 import co.edu.unbosque.model.HibernateUtil;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 
 public class GenericDAO<ID, T extends Serializable> implements DAO<ID, T> {
@@ -23,7 +22,6 @@ public class GenericDAO<ID, T extends Serializable> implements DAO<ID, T> {
     @Override
     public void save(T entity) {
 
-        HibernateUtil.getInstance().executeAsync(() -> {
 
             EntityManager entityManager = HibernateUtil.getInstance().getEntityManager();
 
@@ -36,18 +34,17 @@ public class GenericDAO<ID, T extends Serializable> implements DAO<ID, T> {
                 if (entityManager.getTransaction().isActive()) {
                     entityManager.getTransaction().rollback();
                 }
+                e.printStackTrace();
                 System.out.println("ocurrio un problema con la insercion");
             } finally {
                 entityManager.close();
             }
 
-        });
     }
 
     @Override
     public void update(ID id, T entity) {
 
-        HibernateUtil.getInstance().executeAsync(() -> {
 
             EntityManager entityManager = HibernateUtil.getInstance().getEntityManager();
 
@@ -64,13 +61,11 @@ public class GenericDAO<ID, T extends Serializable> implements DAO<ID, T> {
                 entityManager.close();
             }
 
-        });
     }
 
     @Override
     public void delete(ID id) {
 
-        HibernateUtil.getInstance().executeAsync(() -> {
 
             EntityManager entityManager = HibernateUtil.getInstance().getEntityManager();
 
@@ -94,13 +89,10 @@ public class GenericDAO<ID, T extends Serializable> implements DAO<ID, T> {
                 entityManager.close();
             }
 
-        });
     }
 
     @Override
-    public CompletableFuture<T> findById(ID id) {
-
-        return CompletableFuture.supplyAsync(() -> {
+    public T findById(ID id) {
 
             EntityManager entityManager = HibernateUtil.getInstance().getEntityManager();
 
@@ -111,7 +103,6 @@ public class GenericDAO<ID, T extends Serializable> implements DAO<ID, T> {
                 entityManager.close();
             }
 
-        }, HibernateUtil.getExecutorService());
     }
 
     @Override
@@ -126,66 +117,53 @@ public class GenericDAO<ID, T extends Serializable> implements DAO<ID, T> {
                 criteriaQuery.select(root);
 
                 return entityManager.createQuery(criteriaQuery).getResultList();
-            }catch(Exception e){
+            } catch (Exception e) {
                 System.out.println("ocurrio un problema al tratar de obtener todos los usuarios");
-            } 
-            finally {
+            } finally {
                 entityManager.close();
             }
             return null;
 
         }, HibernateUtil.getExecutorService());
     }
+//  public CompletableFuture<List<Object[]>> executeCustomQuery(String sql) {
+//         return CompletableFuture.supplyAsync(() -> {
+//             EntityManager entityManager = HibernateUtil.getInstance().getEntityManager();
 
-    @Override
-    public CompletableFuture<List<T>> findByAtribute(String atributo, Object dato) {
+//             try {
+//                 return entityManager.createNativeQuery(sql).getResultList();
+//             } finally {
+//                 entityManager.close();
+//             }
+//         }, HibernateUtil.getExecutorService());
+//     }
 
-        return CompletableFuture.supplyAsync(() -> {
-
-            EntityManager entityManager = HibernateUtil.getInstance().getEntityManager();
-
-            try {
-                CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-                CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(entityClass);
-                Root<T> root = criteriaQuery.from(entityClass);
-
-                Predicate predicate = criteriaBuilder.equal(root.get(atributo), dato);
-                criteriaQuery.select(root).where(predicate);
-
-                return entityManager.createQuery(criteriaQuery).getResultList();
-            } finally {
-                entityManager.close();
-            }
-
-        }, HibernateUtil.getExecutorService());
+    public List<Object[]> executeCustomQuery(String sql) {
+        EntityManager entityManager = HibernateUtil.getInstance().getEntityManager();
+        
+        try {
+            return entityManager.createNativeQuery(sql).getResultList();
+        } finally {
+            entityManager.close();
+        }
     }
 
-    @Override
-    public CompletableFuture<List<T>> findByAtributes(Map<String, Object> atributos) {
+    // Método para obtener un solo objeto
+    public Object[] executeSingleResultQuery(String sql) {
+        EntityManager entityManager = HibernateUtil.getInstance().getEntityManager();
+        
+        try {
 
-        return CompletableFuture.supplyAsync(() -> {
-
-            EntityManager entityManager = HibernateUtil.getInstance().getEntityManager();
-
-            try {
-                CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-                CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(entityClass);
-                Root<T> root = criteriaQuery.from(entityClass);
-
-                // Construir la lista de predicados (condiciones)
-                Predicate[] predicates = atributos.entrySet().stream()
-                        .map(entry -> criteriaBuilder.equal(root.get(entry.getKey()), entry.getValue()))
-                        .toArray(Predicate[]::new);
-
-                // Aplicar las condiciones
-                criteriaQuery.select(root).where(predicates);
-
-                return entityManager.createQuery(criteriaQuery).getResultList();
-            } finally {
-                entityManager.close();
+            Object result =  entityManager.createNativeQuery(sql).getSingleResult();
+            if (result instanceof Object[]) {
+                return (Object[]) result;  // Retorna directamente si es un Object[]
+            } else {
+                return new Object[]{result};  // Envuelve en Object[] si es un solo valor
             }
-
-        }, HibernateUtil.getExecutorService());
+        } catch (NoResultException e) {
+            return null;  // Retorna null si no se encuentra un resultado
+        } finally {
+            entityManager.close();
+        }
     }
-
 }

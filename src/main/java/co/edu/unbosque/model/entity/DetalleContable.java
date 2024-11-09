@@ -27,6 +27,7 @@ public class DetalleContable implements Serializable {
 
 	@Id
 	@Column(name="id_detalle")
+	@GeneratedValue(strategy = GenerationType.IDENTITY) 
 	private Long idDetalle;
 
 	@Column(name = "debe")

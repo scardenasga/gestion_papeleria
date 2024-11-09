@@ -30,6 +30,7 @@ public class AsientoContable implements Serializable {
 
 	@Id
 	@Column(name="id_asiento")
+	@GeneratedValue(strategy = GenerationType.IDENTITY) 
 	private Long idAsiento;
 
 	@Column(name="fecha_asiento")
