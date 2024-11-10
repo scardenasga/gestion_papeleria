@@ -71,7 +71,7 @@ public class Ventana extends JFrame {
 
         bg.add(login); // Agregar loginPanel dentro del fondo
 
-        this.bg.setVisible(false);
+        this.bg.setVisible(true);
 
         GridBagConstraints gbc = new GridBagConstraints();
 
@@ -79,6 +79,7 @@ public class Ventana extends JFrame {
         gbc.gridy = 0;
         gbc.weightx = 1.0;
         gbc.weighty = 2.0;
+        gbc.gridheight = 2;
         
         gbc.fill= GridBagConstraints.BOTH;
         // Añadir fondo al JFrame
@@ -89,6 +90,7 @@ public class Ventana extends JFrame {
         gbc.gridy = 0;
         gbc.weightx = 1.0;
         gbc.weighty = 0.04;
+        gbc.gridheight = 1;
 
         panelHeader = new PanelHeader();
 
@@ -104,7 +106,6 @@ public class Ventana extends JFrame {
         gbc.weighty = 0.96;
 
         panelVenta = new PanelVenta();
-        panelVenta.setVisible(true);
         this.add(panelVenta,gbc);
 
         panelPedidos = new PanelPedidos();

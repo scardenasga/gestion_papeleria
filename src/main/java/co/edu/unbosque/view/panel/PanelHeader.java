@@ -66,6 +66,6 @@ public class PanelHeader extends JPanel {
 
         this.setMaximumSize(new Dimension(Integer.MAX_VALUE, 60));  // El JPanel no puede crecer verticalmente más allá de 60px
 
-        this.setVisible(true);
+        this.setVisible(false);
     }
 }

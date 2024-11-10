@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "AplMain",
+            "request": "launch",
+            "mainClass": "co.edu.unbosque.AplMain",
+            "projectName": "gestion_papeleria"
+        },
+        {
+            "type": "java",
             "name": "Current File",
             "request": "launch",
             "mainClass": "${file}"

@@ -15,7 +15,11 @@ import co.edu.unbosque.view.util.login.BackGround;
 import co.edu.unbosque.view.util.login.utility.Button;
 import co.edu.unbosque.view.util.login.utility.PasswordField;
 import co.edu.unbosque.view.util.login.utility.TextField;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class Login extends JPanel {
     
     

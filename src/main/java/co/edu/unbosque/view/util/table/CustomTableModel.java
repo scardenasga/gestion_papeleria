@@ -1,7 +1,7 @@
 package co.edu.unbosque.view.util.table;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
@@ -11,18 +11,19 @@ public class CustomTableModel extends AbstractTableModel {
 
     private Object[][] data;
 
-    public CustomTableModel(String[] columnNames, ArrayList<Object> datos) {
+    public CustomTableModel(String[] columnNames, List<Object[]> datos) {
         this.columnNames = columnNames;
         this.data = new Object[datos.size()][columnNames.length];
+        
 
         for (int i = 0; i < datos.size(); i++) {
-            Object obj = datos.get(i);
+            Object[] obj = datos.get(i);
             for (int j = 0; j < columnNames.length; j++) {
                 try {
-                    Field field = obj.getClass().getDeclaredField(columnNames[j]);
-                    field.setAccessible(true); // Permitir acceso a campos privados
-                    this.data[i][j] = String.valueOf(field.get(obj));
-                } catch (NoSuchFieldException | IllegalAccessException e) {
+                    // Field field = obj.getClass().getDeclaredField(columnNames[j]);
+                    // field.setAccessible(true); // Permitir acceso a campos privados
+                    this.data[i][j] = String.valueOf(obj[j]);
+                } catch (Exception e) {
                     // e.printStackTrace();
                     this.data[i][j] = null; // En caso de error, mostrar "N/A"
                 }

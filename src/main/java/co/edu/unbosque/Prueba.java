@@ -34,7 +34,7 @@ public class Prueba {
         establecerSecion.showUsuarioActual();
 
        UsuarioDAO udao = new UsuarioDAO();
-       String sql = "SELECT * FROM cuenta_contable;";
+       String sql = "SELECT * FROM persona;";
        List<Object[]> usuarios = udao.executeCustomQuery(sql);
        for (Object[] i : usuarios) {
         System.out.println(Arrays.toString(i));
@@ -46,15 +46,15 @@ public class Prueba {
         System.out.println("No se encontró el resultado.");
     }
 
-    PersonaDAO pdao = new PersonaDAO();
+    // PersonaDAO pdao = new PersonaDAO();
 
-    Contabilidad con = new Contabilidad();
-    Venta ven = Venta.builder()
-        .totalVenta(new BigDecimal(12500L))
-        .persona(pdao.findById("1031632637"))
-        .fechaVenta(new Timestamp(System.currentTimeMillis()))
-        .build();
-    con.agregarVenta(ven);
+    // Contabilidad con = new Contabilidad();
+    // Venta ven = Venta.builder()
+    //     .totalVenta(new BigDecimal(12500L))
+    //     .persona(pdao.findById("1031632637"))
+    //     .fechaVenta(new Timestamp(System.currentTimeMillis()))
+    //     .build();
+    // con.agregarVenta(ven);
        
         // System.out.println("final de mostrar usuario");
         // UsuarioDAO udao = new UsuarioDAO();

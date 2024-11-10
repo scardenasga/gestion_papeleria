@@ -61,23 +61,23 @@ public class Prueba extends JFrame {
 
 
         // Crear la JTable y envolverla en un JScrollPane
-        JTable table = new JTable(new CustomTableModel(cabeceras, cargarInformacion())); 
+        // JTable table = new JTable(new CustomTableModel(cabeceras, cargarInformacion())); 
 
-        table.getColumnModel().getColumn(3).setCellRenderer(new ButtonRenderer());
-        table.getColumnModel().getColumn(4).setCellEditor(new ButtonEditor(new JCheckBox()));
-           // Usar CheckBoxEditor en la última columna
-           table.getColumnModel().getColumn(5).setCellEditor(new CheckBoxEditor());
-           // Usar CheckBoxRenderer para mostrar los CheckBoxes
-           table.getColumnModel().getColumn(5).setCellRenderer(new CheckBoxRenderer());
+        // table.getColumnModel().getColumn(3).setCellRenderer(new ButtonRenderer());
+        // table.getColumnModel().getColumn(4).setCellEditor(new ButtonEditor(new JCheckBox()));
+        //    // Usar CheckBoxEditor en la última columna
+        //    table.getColumnModel().getColumn(5).setCellEditor(new CheckBoxEditor());
+        //    // Usar CheckBoxRenderer para mostrar los CheckBoxes
+        //    table.getColumnModel().getColumn(5).setCellRenderer(new CheckBoxRenderer());
 
 
-        // table.setDefaultRenderer(Object.class, new CustomCellRenderer()); 
-        JScrollPane scrollPane = new JScrollPane(table);
-        // Configurar restricciones para el JScrollPane con el JTable
-        gbc.gridy = 1;
-        gbc.weighty = 1.0; // Expande verticalmente para ocupar el resto del espacio
-        gbc.fill = GridBagConstraints.BOTH;
-        p1.add(scrollPane, gbc);
+        // // table.setDefaultRenderer(Object.class, new CustomCellRenderer()); 
+        // JScrollPane scrollPane = new JScrollPane(table);
+        // // Configurar restricciones para el JScrollPane con el JTable
+        // gbc.gridy = 1;
+        // gbc.weighty = 1.0; // Expande verticalmente para ocupar el resto del espacio
+        // gbc.fill = GridBagConstraints.BOTH;
+        // p1.add(scrollPane, gbc);
 
         // Agregar el panel principal a la ventana
         this.add(p1);
