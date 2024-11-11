@@ -1,13 +1,19 @@
 package co.edu.unbosque.model.service;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.sql.Timestamp;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 import co.edu.unbosque.model.dao.AsientoContableDAO;
 import co.edu.unbosque.model.dao.CompraDAO;
 import co.edu.unbosque.model.dao.CuentaContableDAO;
+import co.edu.unbosque.model.dao.CuentaDAO;
 import co.edu.unbosque.model.dao.VentaDAO;
 import co.edu.unbosque.model.entity.AsientoContable;
+import co.edu.unbosque.model.entity.Compra;
 import co.edu.unbosque.model.entity.CuentaContable;
 import co.edu.unbosque.model.entity.DetalleContable;
 import co.edu.unbosque.model.entity.Venta;
@@ -18,8 +24,9 @@ public class Contabilidad {
     private AsientoContableDAO asientoContableDao;
     private DetalleContableDAO detalleContableDao;
     private CuentaContableDAO cuentaContableDao;
-    private VentaDAO ventaDao;
-    private CompraDAO compraDao;
+    private VentaDAO ventaDAO;
+    private CompraDAO compraDAO;
+    private CuentaDAO cuentaDAO;
 
     public Contabilidad(){
         this.asientoContableDao = new AsientoContableDAO();
@@ -28,49 +35,6 @@ public class Contabilidad {
         this.ventaDAO = new VentaDAO();
         this.compraDAO = new CompraDAO();
         this.cuentaDAO = new CuentaDAO();
-    }
-
-    public void agregarVenta(Venta ventaRealizada) {
-
-        DetalleContable dc = DetalleContable.builder()
-                .debe(BigDecimal.ZERO)
-                .haber(ventaRealizada.getTotalVenta())
-                .build();
-
-        Object[] indice = ventaDao.executeSingleResultQuery("SELECT id_cuenta FROM cuenta_contable WHERE nombre = \'INGRESO_POR_VENTAS\';");
-        
-        CuentaContable cuenta = cuentaContableDao.findById((Short)indice[0]);
-        cuenta.getDetalleContables().add(dc);
-
-
-
-        AsientoContable ac = AsientoContable.builder()
-                .total(ventaRealizada.getTotalVenta())
-                .fechaAsiento(new Timestamp(System.currentTimeMillis()))
-                .build();
-        // esta parte agrega la venta realizada a la tabla asiento contable
-        // esto me permite realizar la conexion con las llaves foraneas
-        ac.getVentas().add(ventaRealizada);
-        ac.getDetalleContables().add(dc);
-
-        //relacion de la venta con el asiento contable
-        ventaRealizada.setAsientoContable(ac);
-        
-
-        dc.setCuentaContable(cuenta);
-        dc.setAsientoContable(ac);
-
-
-        //Guardar en el orden correcto:
-        //1. Guardar el detalle contable
-        cuentaContableDao.update((Short)indice[0], cuenta);
-        //2. Guardar el asiento contable
-        asientoContableDao.save(ac);
-        //3. Guardar Asiento y venta
-        detalleContableDao.save(dc);
-        ventaDao.save(ventaRealizada);
-
-
     }
 
     public void agregarVenta(Venta ventaRealizada) {
@@ -342,6 +306,6 @@ class FacturaElectronicaDTO {
         return valorConIVA;
     }
 
-    }
+    } 
 
 }
