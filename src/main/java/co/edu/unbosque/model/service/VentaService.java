@@ -43,16 +43,13 @@ public class VentaService {
 
 			Timestamp fecha = new Timestamp(new Date().getTime());
 
-			System.out.println("o");
 
 			createPersona(identificacion, fechaNacimiento, primerApellido, primerNombre, segundoApellido, segundoNombre,
 					telefono, 
 					new Compra(id, fecha, totalVenta, asientoContable, null));
 			
-					System.out.println("oo");
 
 			createVenta(id, totalVenta, detalleVenta, asientoContable, null, identificacion);
-			System.out.println("ooo");
 
 			return "la venta se ha creado con exito";
 		} catch (Exception e) {
@@ -92,27 +89,20 @@ public class VentaService {
 			String primerNombre, String segundoApellido, String segundoNombre, String telefono,
 
 			Compra compra) {
-				System.out.println("p");
 		Persona persona = new Persona(identificacion, fechaNacimiento, primerApellido, primerNombre, segundoApellido,
 				segundoNombre, telefono, TipoUsuario.CLIENTE, null, null, null);
-				System.out.println("pp");
 
 		// agregar las compras
 		List<Compra> compras = new ArrayList<>();
-		System.out.println("ppp");
 
 		compras.add(compra);
-		System.out.println("pppp");
 
 		persona.setCompras(compras);
-		System.out.println("ppppp");
 
 		//guardar en la base de datos
 		compradao.save(compra);
-		System.out.println("pppppp");
 
 		personadao.save(persona);
-		System.out.println("pt");
 
 		return "persona creada";
 	}
