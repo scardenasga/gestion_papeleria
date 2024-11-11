@@ -1,6 +1,12 @@
 package co.edu.unbosque.model.dao;
 
+import java.time.LocalDate;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+
+import co.edu.unbosque.model.HibernateUtil;
 import co.edu.unbosque.model.entity.Venta;
+import jakarta.persistence.EntityManager;
 
 public class VentaDAO extends GenericDAO<Long, Venta>{
     
