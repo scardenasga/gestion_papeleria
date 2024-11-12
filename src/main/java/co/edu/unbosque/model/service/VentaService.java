@@ -32,7 +32,6 @@ public class VentaService {
 	// para cuando la persona no está registrada
 	public String createVenta(Long id, BigDecimal totalVenta, List<DetalleVenta> detalleVenta,
 
-			AsientoContable asientoContable,
 
 			String identificacion, LocalDate fechaNacimiento, String primerApellido, String primerNombre,
 			String segundoApellido, String segundoNombre, String telefono
@@ -43,13 +42,12 @@ public class VentaService {
 
 			Timestamp fecha = new Timestamp(new Date().getTime());
 
-
+			Compra compra=new Compra(id, fecha, totalVenta, null, null);
 			createPersona(identificacion, fechaNacimiento, primerApellido, primerNombre, segundoApellido, segundoNombre,
-					telefono, 
-					new Compra(id, fecha, totalVenta, asientoContable, null));
+					telefono, compra);
 			
 
-			createVenta(id, totalVenta, detalleVenta, asientoContable, null, identificacion);
+			createVenta(id, totalVenta, detalleVenta, null, identificacion);
 
 			return "la venta se ha creado con exito";
 		} catch (Exception e) {
@@ -59,7 +57,7 @@ public class VentaService {
 
 	// para cuando la persona ya está registrada
 	public String createVenta(Long id, BigDecimal totalVenta, List<DetalleVenta> detalleVenta,
-			AsientoContable asientoContable, Compra compra, String identificacion) {
+			Compra compra, String identificacion) {
 		try {
 
 			Timestamp fecha = new Timestamp(new Date().getTime());
@@ -76,8 +74,9 @@ public class VentaService {
 				personadao.update(identificacion, persona);
 			}
 
-			Venta venta = new Venta(id, fecha, totalVenta, detalleVenta, asientoContable, persona);
+			Venta venta = new Venta(id, fecha, totalVenta, detalleVenta, null, persona);
 			contabilidad.agregarVenta(venta);
+
 
 			return "la venta se ha creado con exito";
 		} catch (Exception e) {
