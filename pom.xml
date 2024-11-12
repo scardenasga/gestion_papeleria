@@ -23,7 +23,13 @@
     </repositories>
 
     <dependencies>
-    
+
+<dependency>
+    <groupId>com.toedter</groupId>
+    <artifactId>jcalendar</artifactId>
+    <version>1.4</version>
+</dependency>
+	    
     <!-- https://mvnrepository.com/artifact/org.hibernate.orm/hibernate-core -->
     <dependency>
         <groupId>org.hibernate.orm</groupId>
