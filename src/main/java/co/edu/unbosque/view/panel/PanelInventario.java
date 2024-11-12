@@ -13,7 +13,11 @@ import javax.swing.JTable;
 
 import co.edu.unbosque.view.util.login.utility.TextField;
 import co.edu.unbosque.view.util.table.CustomTableModel;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class PanelInventario extends JPanel{
 
     private TextField busqueda;

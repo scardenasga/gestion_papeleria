@@ -5,6 +5,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
@@ -30,13 +31,14 @@ public class PanelDatosPersona extends JPanel {
     private JTextField segundoApellido;
     private JTextField telefono;
     private DatePicker datePicker;
-    private JComboBox tipoUsuario;
+    private JComboBox<TipoUsuario> tipoUsuario;
+    private JTextField usuarioField;
+    private JPasswordField contrasenaField;
     
     public PanelDatosPersona() {
         init();
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
     private void init() {
 
         setLayout(new MigLayout("wrap 2,fillx,insets n 35 n 35", "[fill,200]"));
@@ -93,12 +95,42 @@ public class PanelDatosPersona extends JPanel {
 
         add(new JLabel("Tipo de Usuario"), "gapy 5,span 2");
         tipoUsuario = new JComboBox();
+        tipoUsuario.addItem(TipoUsuario.PROVEEDOR);
         tipoUsuario.addItem(TipoUsuario.EMPLEADO);
         tipoUsuario.addItem(TipoUsuario.ADMINISTRADOR);
         tipoUsuario.addItem(TipoUsuario.CLIENTE);
-        tipoUsuario.addItem(TipoUsuario.PROVEEDOR);
 
         add(tipoUsuario, "Span 2");
+
+        usuarioField = new JTextField();
+        usuarioField.setEnabled(false);  // Inhabilitamos el campo inicialmente
+        usuarioField.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Nombre de Usuario");
+        contrasenaField = new JPasswordField();
+        contrasenaField.setEnabled(false);  // Inhabilitamos el campo inicialmente
+        contrasenaField.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Contraseña");
+
+        add(new JLabel("Nombre de Usuario"), "span 2");
+        add(usuarioField, "span 2");
+
+        add(new JLabel("Contraseña"), "span 2");
+        add(contrasenaField, "span 2");
+
+        tipoUsuario.addItemListener(e -> {
+            if (tipoUsuario.getSelectedItem() == TipoUsuario.ADMINISTRADOR) {
+                // Mostrar los campos de usuario y contraseña si es administrador
+                usuarioField.setEnabled(true);
+                contrasenaField.setEnabled(true);
+            } else {
+                // Ocultar los campos de usuario y contraseña si no es administrador
+                usuarioField.setEnabled(false);
+                contrasenaField.setEnabled(false);
+            }
+        });
+
+    
+
+
+
 
         JTextArea textArea = new JTextArea();
         textArea.setEnabled(false);
@@ -112,8 +144,8 @@ public class PanelDatosPersona extends JPanel {
 
         // action button
 
-        JButton cmdCancel = new JButton("Cancel");
-        JButton cmdPayment = new JButton("Request Payment") {
+        JButton cmdCancel = new JButton("Cancelar");
+        JButton cmdPayment = new JButton("Confirmar") {
             @Override
             public boolean isDefaultButton() {
                 return true;

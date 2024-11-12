@@ -10,8 +10,15 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.RowFilter;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 import co.edu.unbosque.view.util.login.utility.TextField;
+import co.edu.unbosque.view.util.menu.CheckBoxEditor;
+import co.edu.unbosque.view.util.menu.CheckBoxRenderer;
 import co.edu.unbosque.view.util.table.CustomTableModel;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,7 +36,7 @@ public class PanelPersonas extends JPanel {
     private JScrollPane scrollPane;
     
     public PanelPersonas(){
-        this.setBackground(Color.RED);
+        // this.setBackground(Color.RED);
         this.setLayout(new GridBagLayout());
 
         GridBagConstraints gbc = new GridBagConstraints();
@@ -84,10 +91,11 @@ public class PanelPersonas extends JPanel {
         gbc.weighty = 0.95;
         gbc.gridwidth = 4;
         gbc.fill = GridBagConstraints.BOTH;
-        tablaPersonas = new JTable(this.tableModel);
+        tablaPersonas = new JTable();
         scrollPane = new JScrollPane(tablaPersonas);
         this.add(scrollPane,gbc);
 
         this.setVisible(false);
     }
+
 }

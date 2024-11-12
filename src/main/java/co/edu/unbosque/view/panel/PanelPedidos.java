@@ -13,7 +13,11 @@ import javax.swing.JTable;
 
 import co.edu.unbosque.view.util.login.utility.TextField;
 import co.edu.unbosque.view.util.table.CustomTableModel;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class PanelPedidos extends JPanel {
     
     private TextField busqueda;
@@ -25,7 +29,7 @@ public class PanelPedidos extends JPanel {
     private JScrollPane scrollPane;
 
     public PanelPedidos(){
-        this.setBackground(Color.ORANGE);
+        // this.setBackground(Color.ORANGE);
         this.setLayout(new GridBagLayout());
 
         GridBagConstraints gbc = new GridBagConstraints();

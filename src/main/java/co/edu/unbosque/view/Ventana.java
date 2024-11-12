@@ -47,6 +47,7 @@ public class Ventana extends JFrame {
         this.setLocationRelativeTo(null);
         this.setMinimumSize(new Dimension(700,550));
         this.setLayout(new GridBagLayout());
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
 
         GlassPanePopup.install(this);
@@ -180,20 +181,20 @@ public class Ventana extends JFrame {
 
                 Drawer.getInstance().closeDrawer();
                 break;
+            // case "40":
+            //     System.out.println("Opción seleccionada: Proveedores");
+            //     this.panelHeader.getTitulo().setText("Proveedores");
+
+            //     this.panelVenta.setVisible(false);
+            //     this.panelPedidos.setVisible(false);
+            //     this.panelInventario.setVisible(false);
+            //     this.panelPersonas.setVisible(false);
+            //     this.panelProveedores.setVisible(true);
+            //     this.panelContabilidad.setVisible(false);
+
+            //     Drawer.getInstance().closeDrawer();
+            //     break;
             case "40":
-                System.out.println("Opción seleccionada: Proveedores");
-                this.panelHeader.getTitulo().setText("Proveedores");
-
-                this.panelVenta.setVisible(false);
-                this.panelPedidos.setVisible(false);
-                this.panelInventario.setVisible(false);
-                this.panelPersonas.setVisible(false);
-                this.panelProveedores.setVisible(true);
-                this.panelContabilidad.setVisible(false);
-
-                Drawer.getInstance().closeDrawer();
-                break;
-            case "50":
                 System.out.println("Opción seleccionada: Contabilidad");
                 this.panelHeader.getTitulo().setText("Contabilidad");
 
@@ -205,7 +206,7 @@ public class Ventana extends JFrame {
                 this.panelContabilidad.setVisible(true);
                 
                 break;
-            case "51":
+            case "41":
                 System.out.println("Opción seleccionada: Ventas");
                 this.panelHeader.getTitulo().setText("Contabilidad > Ventas");
 
@@ -218,7 +219,7 @@ public class Ventana extends JFrame {
 
                 Drawer.getInstance().closeDrawer();
                 break;
-            case "52":
+            case "42":
                 System.out.println("Opción seleccionada: Costos");
                 this.panelHeader.getTitulo().setText("Contabilidad > Costos");
 
@@ -231,7 +232,7 @@ public class Ventana extends JFrame {
 
                 Drawer.getInstance().closeDrawer();
                 break;
-            case "53":
+            case "43":
                 System.out.println("Opción seleccionada: Cierre de Caja");
                 this.panelHeader.getTitulo().setText("Contabilidad > Cierre de Caja");
 
@@ -244,7 +245,7 @@ public class Ventana extends JFrame {
 
                 Drawer.getInstance().closeDrawer();
                 break;
-            case "60":
+            case "50":
                 System.out.println("Opción seleccionada: Cerrar Secion");
                 System.exit(1);
                 break;

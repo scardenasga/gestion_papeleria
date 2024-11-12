@@ -36,11 +36,10 @@ public class MenuDesplegable extends SimpleDrawerBuilder{
             {"Inventario"},
             {"~Usuarios~"},
             {"Empleados"},
-            {"Proveedores"},
             {"~Contabilidad~"},
             {"Contabilidad","Ventas", "Costos", "Cierre Caja"},
             {"~Otros~"},
-            {"Cerrar Seción"}
+            {"Cerrar Sesión"}
         };
 
         return new SimpleMenuOption()
