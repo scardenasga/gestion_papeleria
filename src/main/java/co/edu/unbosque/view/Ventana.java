@@ -121,8 +121,9 @@ public class Ventana extends JFrame {
         panelProveedores = new PanelProveedores();
         this.add(panelProveedores,gbc);
 
-        // panelContabilidad = new PanelContabilidad();
-        // this.add(panelContabilidad,gbc);
+        panelContabilidad = new PanelContabilidad();
+        panelContabilidad.setVisible(false); // Asegúrate de que esté inicialmente oculto
+        this.add(panelContabilidad, gbc);
 
 
     }
@@ -138,7 +139,7 @@ public class Ventana extends JFrame {
                 this.panelInventario.setVisible(false);
                 this.panelPersonas.setVisible(false);
                 this.panelProveedores.setVisible(false);
-                // this.panelContabilidad.setVisible(false);
+                this.panelContabilidad.setVisible(false);
 
                 Drawer.getInstance().closeDrawer();
                 break;
@@ -151,7 +152,7 @@ public class Ventana extends JFrame {
                 this.panelInventario.setVisible(false);
                 this.panelPersonas.setVisible(false);
                 this.panelProveedores.setVisible(false);
-                // this.panelContabilidad.setVisible(false);
+                this.panelContabilidad.setVisible(false);
 
                 Drawer.getInstance().closeDrawer();
                 break;
@@ -164,7 +165,7 @@ public class Ventana extends JFrame {
                 this.panelInventario.setVisible(true);
                 this.panelPersonas.setVisible(false);
                 this.panelProveedores.setVisible(false);
-                // this.panelContabilidad.setVisible(false);
+                this.panelContabilidad.setVisible(false);
                 
                 Drawer.getInstance().closeDrawer();
                 break;
@@ -177,7 +178,7 @@ public class Ventana extends JFrame {
                 this.panelInventario.setVisible(false);
                 this.panelPersonas.setVisible(true);
                 this.panelProveedores.setVisible(false);
-                // this.panelContabilidad.setVisible(false);
+                this.panelContabilidad.setVisible(false);
 
                 Drawer.getInstance().closeDrawer();
                 break;
@@ -203,7 +204,7 @@ public class Ventana extends JFrame {
                 this.panelInventario.setVisible(false);
                 this.panelPersonas.setVisible(false);
                 this.panelProveedores.setVisible(false);
-                // this.panelContabilidad.setVisible(true);
+                this.panelContabilidad.setVisible(true);
                 
                 break;
             case "41":
@@ -254,4 +255,5 @@ public class Ventana extends JFrame {
                 break;
         }
     }
+}
 }
