@@ -24,8 +24,7 @@ public class PanelContabilidad extends JPanel {
     private Contabilidad contabilidad; // Instancia de la clase Contabilidad
     private JPanel mainPanel; // Panel principal que contendrá los diferentes paneles
 
-    public PanelContabilidad(JPanel mainPanel) {
-        this.mainPanel = mainPanel; // Guardar referencia al panel principal
+    public PanelContabilidad() {
         contabilidad = new Contabilidad(); // Inicializa la clase Contabilidad
         
         // Inicializar los paneles
