@@ -121,7 +121,7 @@ public class Ventana extends JFrame {
         panelProveedores = new PanelProveedores();
         this.add(panelProveedores,gbc);
 
-        panelContabilidad = new PanelContabilidad();
+        panelContabilidad = new PanelContabilidad(login);
         this.add(panelContabilidad,gbc);
 
 
