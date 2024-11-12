@@ -48,7 +48,7 @@ public class PanelDatosPersona extends JPanel {
                 "font:bold +2;");
         add(lbContactDetail, "gapy 10 10,span 2");
 
-        add(new JLabel("Identificación"), "span 2");
+        add(new JLabel("Cédula"), "span 2");
         identificacion = new JTextField();
         identificacion.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "1234567890");
         add(identificacion, "gapy n 5,span 2");
