@@ -36,6 +36,10 @@ public class Compra implements Serializable {
 	@Column(name="total_compra")
 	private BigDecimal totalCompra;
 
+	@Column(name = "estado")
+	@Enumerated(EnumType.STRING)
+	private TipoEstado estado;
+
 	//bi-directional many-to-one association to AsientoContable
 	@ManyToOne
 	@JoinColumn(name="id_asiento")

@@ -166,4 +166,19 @@ public class GenericDAO<ID, T extends Serializable> implements DAO<ID, T> {
             entityManager.close();
         }
     }
+    
+    public void executeCustomUpdate(String sql) {
+        EntityManager entityManager = HibernateUtil.getInstance().getEntityManager();
+        
+        try {
+            entityManager.getTransaction().begin();
+            entityManager.createNativeQuery(sql).executeUpdate();
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            entityManager.getTransaction().rollback();
+            throw e; // Lanza la excepción para manejar errores en la capa superior
+        } finally {
+            entityManager.close();
+        }
+    }
 }

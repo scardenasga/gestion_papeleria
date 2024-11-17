@@ -17,7 +17,7 @@ import raven.modal.component.SimpleModalBorder;
 @Getter
 @Setter
 public class PanelBorrarInventario extends JPanel {
-    private JTable personas;
+    private JTable productos;
     
     public PanelBorrarInventario() {
         init();
@@ -32,8 +32,8 @@ public class PanelBorrarInventario extends JPanel {
                 "font:bold +2;");
         add(lbContactDetail, "gapy 10 10,span 2");
 
-        this.personas = new JTable();
-        JScrollPane scroll = new JScrollPane(this.personas);
+        this.productos = new JTable();
+        JScrollPane scroll = new JScrollPane(this.productos);
         // action button
         add(scroll,"span 2");
         JButton cmdCancel = new JButton("Cancelar");

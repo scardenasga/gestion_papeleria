@@ -36,6 +36,7 @@ public class DetalleContable implements Serializable {
 	@Column(name = "haber")
 	private BigDecimal haber;
 
+
 	//bi-directional many-to-one association to AsientoContable
 	@ManyToOne
 	@JoinColumn(name="id_asiento")

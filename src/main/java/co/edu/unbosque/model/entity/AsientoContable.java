@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -40,17 +41,20 @@ public class AsientoContable implements Serializable {
 	private BigDecimal total;
 
 	//bi-directional many-to-one association to Compra
-	@OneToMany(mappedBy="asientoContable")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy="asientoContable")
 	@Builder.Default
+	@ToString.Exclude
 	private List<Compra> compras = new ArrayList<>();
 
 	//bi-directional many-to-one association to DetalleContable
-	@OneToMany(mappedBy="asientoContable")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy="asientoContable")
 	@Builder.Default
+	@ToString.Exclude
 	private List<DetalleContable> detalleContables = new ArrayList<>();
 
 	//bi-directional many-to-one association to Venta
-	@OneToMany(mappedBy="asientoContable")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy="asientoContable")
 	@Builder.Default
+	@ToString.Exclude
 	private List<Venta> ventas = new ArrayList<>();
 }

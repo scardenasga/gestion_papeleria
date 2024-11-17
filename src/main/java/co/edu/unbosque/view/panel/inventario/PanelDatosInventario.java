@@ -27,7 +27,7 @@ public class PanelDatosInventario extends JPanel{
 
     private JTextField codigo;
     private JTextField nombreProducto;
-    private JTextField totalPedido;
+    private JTextField totalPrecio;
     private JSpinner spinner;
     
     public PanelDatosInventario() {
@@ -58,15 +58,15 @@ public class PanelDatosInventario extends JPanel{
         add(nombreProducto);
         
         
-        totalPedido = new JTextField();
-        totalPedido.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "3105558765");
+        totalPrecio = new JTextField();
+        totalPrecio.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "3105558765");
 
-        totalPedido.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "0.00");
+        totalPrecio.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "0.00");
         JLabel lbDollar = new JLabel("$");
         lbDollar.putClientProperty(FlatClientProperties.STYLE, "" +
                 "border:0,8,0,0;");
-        totalPedido.putClientProperty(FlatClientProperties.TEXT_FIELD_LEADING_COMPONENT, lbDollar);
-        add(totalPedido);
+                totalPrecio.putClientProperty(FlatClientProperties.TEXT_FIELD_LEADING_COMPONENT, lbDollar);
+        add(totalPrecio);
 
 
         add(new JLabel("Cantidad"));

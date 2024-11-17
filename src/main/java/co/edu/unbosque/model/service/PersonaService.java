@@ -1,61 +1,64 @@
 package co.edu.unbosque.model.service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 import co.edu.unbosque.model.dao.PersonaDAO;
+import co.edu.unbosque.model.dao.UsuarioDAO;
 import co.edu.unbosque.model.entity.Persona;
+import co.edu.unbosque.model.entity.TipoUsuario;
+import co.edu.unbosque.model.entity.Usuario;
 
 public class PersonaService {
 
     private PersonaDAO personaDAO;
+    private UsuarioDAO usuarioDAO;
 
-    public PersonaService(PersonaDAO personaDAO) {
-        this.personaDAO = personaDAO;
+    public PersonaService() {
+        this.personaDAO = new PersonaDAO();
+        this.usuarioDAO = new UsuarioDAO();
     }
 
-    // public Persona findById(String identificacion) {
-
-    //     pdao.findById(identificacion)
-    //             .handle((persona, throwable) -> {
-    //                 if (throwable != null) {
-    //                     System.err.println("Error al buscar la persona: " + throwable.getMessage());
-    //                     return null; // O cualquier valor por defecto
-    //                 }
-    //                 return persona; // Retorna la persona si no hay excepciones
-    //             })
-    //             .thenAccept(persona -> {
-    //                 if (persona != null) {
-    //                     System.out.println("La persona existe");
-    //                     System.out.println("La persona" + persona);
-    //                 } else {
-    //                     System.out.println("La persona no existe");
-    //                 }
-    //             });
-    // }
-
-    // public ArrayList<Persona> findAll() {
-    //     ArrayList<Persona> data = new ArrayList<>();
-
-    //     pdao.findAll()
-    //             .thenAccept(personas -> {
-    //                 System.out.println("Mostrar personas");
-    //                 personas.forEach(p -> {
-    //                     System.out.println(p);
-    //                     data.add(p);
-    //                 });
-
-    //             });
-    // }
-
-    public void delete(String identificacion){
-       personaDAO.delete(identificacion); 
+    public void crearPersona(Persona nuevaPersona) {
+        personaDAO.save(nuevaPersona);
     }
 
-    public void addPerson(Persona persona){
-        personaDAO.save(persona);
+    public void crearUsuario(Persona nuevaPersona, Usuario nuevoUsuario){
+        nuevoUsuario.setPersona(nuevaPersona);
+
+        crearPersona(nuevaPersona);
+        usuarioDAO.save(nuevoUsuario);
+
     }
-        
+    public Persona getPersona(String id){
+        return personaDAO.findById(id);
+    }
+    public Usuario getUsuario(String id){
+        Object[] user = usuarioDAO.executeSingleResultQuery("SELECT * FROM usuario WHERE id_persona = '"+id+"';");
+        String username = (String)user[0];
+        return usuarioDAO.findById(username);
+    }
+    public void eliminarPersona(String identificaciones){
+        personaDAO.executeCustomUpdate("UPDATE persona\n" + //
+                        "SET estado = 'INACTIVO'\n" + //
+                        "WHERE identificacion IN ("+identificaciones+");");
+        usuarioDAO.executeCustomUpdate("UPDATE usuario\n" + //
+                        "SET estado = 'INACTIVO'\n" + //
+                        "WHERE id_persona IN ("+identificaciones+");");
+
+    }
+
+    public void actualizarPersona(String id, Persona actualizarPersona){
+        personaDAO.update(id, actualizarPersona);
+
+    }
+
+    public void actualizarUsuario(String id, Usuario actualizarUsuario){
+        usuarioDAO.update(id, actualizarUsuario);
+    }
     
-
+    public List<Object[]> query(String queryString){
+        return personaDAO.executeCustomQuery(queryString);
+    }
 }
-

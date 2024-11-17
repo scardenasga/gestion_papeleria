@@ -8,12 +8,16 @@ import javax.swing.JTable;
 
 import com.formdev.flatlaf.FlatClientProperties;
 
+import lombok.Getter;
+import lombok.Setter;
 import net.miginfocom.swing.MigLayout;
 import raven.modal.component.ModalBorderAction;
 import raven.modal.component.SimpleModalBorder;
 
+@Getter
+@Setter
 public class PanelBorrarPedido extends JPanel{
-    private JTable personas;
+    private JTable pedidos;
     
     public PanelBorrarPedido() {
         init();
@@ -28,8 +32,8 @@ public class PanelBorrarPedido extends JPanel{
                 "font:bold +2;");
         add(lbContactDetail, "gapy 10 10,span 2");
 
-        this.personas = new JTable();
-        JScrollPane scroll = new JScrollPane(this.personas);
+        this.pedidos = new JTable();
+        JScrollPane scroll = new JScrollPane(this.pedidos);
         // action button
         add(scroll,"span 2");
         JButton cmdCancel = new JButton("Cancelar");

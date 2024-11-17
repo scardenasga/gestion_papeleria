@@ -16,11 +16,16 @@ import org.hibernate.type.descriptor.jdbc.LocalDateJdbcType;
 import com.formdev.flatlaf.FlatClientProperties;
 
 import co.edu.unbosque.model.entity.TipoUsuario;
+import lombok.Getter;
+import lombok.Setter;
 import net.miginfocom.swing.MigLayout;
 import raven.datetime.component.date.DatePicker;
 import raven.modal.component.ModalBorderAction;
 import raven.modal.component.SimpleModalBorder;
 
+
+@Getter
+@Setter
 public class PanelDatosPedido extends JPanel{
     
     private JTextField identificacion;

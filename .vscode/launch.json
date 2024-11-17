@@ -8,6 +8,13 @@
             "type": "java",
             "name": "AplMain",
             "request": "launch",
+            "mainClass": "co.edu.unbosque.controller.AplMain",
+            "projectName": "gestion_papeleria"
+        },
+        {
+            "type": "java",
+            "name": "AplMain",
+            "request": "launch",
             "mainClass": "co.edu.unbosque.AplMain",
             "projectName": "gestion_papeleria"
         },

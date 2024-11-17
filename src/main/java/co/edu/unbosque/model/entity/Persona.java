@@ -55,6 +55,10 @@ public class Persona implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private TipoUsuario tipoUsuario;
 
+	@Column(name = "estado")
+	@Enumerated(EnumType.STRING)
+	private TipoEstado estado;
+
 	//bi-directional many-to-one association to Compra
 	@OneToMany(mappedBy="persona")
 	@Builder.Default

@@ -39,6 +39,10 @@ public class Producto implements Serializable {
 	@Column(name = "precio")
 	private BigDecimal precio;
 
+	@Column(name = "estado")
+	@Enumerated(EnumType.STRING)
+	private TipoEstado estado;
+
 	//bi-directional many-to-one association to DetalleVenta
 	@OneToMany(mappedBy="producto")
 	@Builder.Default

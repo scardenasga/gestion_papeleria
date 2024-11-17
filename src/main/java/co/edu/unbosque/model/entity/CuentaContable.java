@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -39,9 +40,14 @@ public class CuentaContable implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private TipoCuenta tipo;
 
+	@Column(name = "estado")
+	@Enumerated(EnumType.STRING)
+	private TipoEstado estado;
+
 	//bi-directional many-to-one association to DetalleContable
 	@OneToMany( fetch = FetchType.EAGER, mappedBy="cuentaContable")
 	@Builder.Default
+	@ToString.Exclude
 	private List<DetalleContable> detalleContables = new ArrayList<>();
 
 }

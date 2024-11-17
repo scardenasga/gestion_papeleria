@@ -38,6 +38,10 @@ public class Venta implements Serializable {
 	@Column(name="total_venta")
 	private BigDecimal totalVenta;
 
+	@Column(name = "estado")
+	@Enumerated(EnumType.STRING)
+	private TipoEstado estado;
+
 	//bi-directional many-to-one association to DetalleVenta
 	@OneToMany(mappedBy="venta")
 	@Builder.Default

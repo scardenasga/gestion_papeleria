@@ -30,80 +30,80 @@ public class VentaService {
 	}
 
 	// para cuando la persona no está registrada
-	public String createVenta(Long id, BigDecimal totalVenta, List<DetalleVenta> detalleVenta,
+	// public String createVenta(Long id, BigDecimal totalVenta, List<DetalleVenta> detalleVenta,
 
 
-			String identificacion, LocalDate fechaNacimiento, String primerApellido, String primerNombre,
-			String segundoApellido, String segundoNombre, String telefono
+	// 		String identificacion, LocalDate fechaNacimiento, String primerApellido, String primerNombre,
+	// 		String segundoApellido, String segundoNombre, String telefono
 
-	) {
+	// ) {
 
-		try {
+	// 	try {
 
-			Timestamp fecha = new Timestamp(new Date().getTime());
+	// 		Timestamp fecha = new Timestamp(new Date().getTime());
 
-			Compra compra=new Compra(id, fecha, totalVenta, null, null);
-			createPersona(identificacion, fechaNacimiento, primerApellido, primerNombre, segundoApellido, segundoNombre,
-					telefono, compra);
+	// 		Compra compra=new Compra(id, fecha, totalVenta, null, null);
+	// 		createPersona(identificacion, fechaNacimiento, primerApellido, primerNombre, segundoApellido, segundoNombre,
+	// 				telefono, compra);
 			
 
-			createVenta(id, totalVenta, detalleVenta, null, identificacion);
+	// 		createVenta(id, totalVenta, detalleVenta, null, identificacion);
 
-			return "la venta se ha creado con exito";
-		} catch (Exception e) {
-			return "se ha producido un error creando la venta";
-		}
-	}
+	// 		return "la venta se ha creado con exito";
+	// 	} catch (Exception e) {
+	// 		return "se ha producido un error creando la venta";
+	// 	}
+	// }
 
 	// para cuando la persona ya está registrada
-	public String createVenta(Long id, BigDecimal totalVenta, List<DetalleVenta> detalleVenta,
-			Compra compra, String identificacion) {
-		try {
+	// public String createVenta(Long id, BigDecimal totalVenta, List<DetalleVenta> detalleVenta,
+	// 		Compra compra, String identificacion) {
+	// 	try {
 
-			Timestamp fecha = new Timestamp(new Date().getTime());
+	// 		Timestamp fecha = new Timestamp(new Date().getTime());
 
-			Persona persona = personadao.findById(identificacion);
+	// 		Persona persona = personadao.findById(identificacion);
 
-			if (compra != null) {
-				compradao.save(compra);
+	// 		if (compra != null) {
+	// 			compradao.save(compra);
 
-				// actualizar las compras
-				List<Compra> compras = new ArrayList<>();
-				compras.add(compra);
-				persona.setCompras(compras);
-				personadao.update(identificacion, persona);
-			}
+	// 			// actualizar las compras
+	// 			List<Compra> compras = new ArrayList<>();
+	// 			compras.add(compra);
+	// 			persona.setCompras(compras);
+	// 			personadao.update(identificacion, persona);
+	// 		}
 
-			Venta venta = new Venta(id, fecha, totalVenta, detalleVenta, null, persona);
-			contabilidad.agregarVenta(venta);
+	// 		Venta venta = new Venta(id, fecha, totalVenta, detalleVenta, null, persona);
+	// 		contabilidad.agregarVenta(venta);
 
 
-			return "la venta se ha creado con exito";
-		} catch (Exception e) {
-			return "se ha producido un error creando la venta";
-		}
-	}
+	// 		return "la venta se ha creado con exito";
+	// 	} catch (Exception e) {
+	// 		return "se ha producido un error creando la venta";
+	// 	}
+	// }
 
-	public String createPersona(String identificacion, LocalDate fechaNacimiento, String primerApellido,
-			String primerNombre, String segundoApellido, String segundoNombre, String telefono,
+	// public String createPersona(String identificacion, LocalDate fechaNacimiento, String primerApellido,
+	// 		String primerNombre, String segundoApellido, String segundoNombre, String telefono,
 
-			Compra compra) {
-		Persona persona = new Persona(identificacion, fechaNacimiento, primerApellido, primerNombre, segundoApellido,
-				segundoNombre, telefono, TipoUsuario.CLIENTE, null, null, null);
+	// 		Compra compra) {
+	// 	Persona persona = new Persona(identificacion, fechaNacimiento, primerApellido, primerNombre, segundoApellido,
+	// 			segundoNombre, telefono, TipoUsuario.CLIENTE, null, null, null);
 
-		// agregar las compras
-		List<Compra> compras = new ArrayList<>();
+	// 	// agregar las compras
+	// 	List<Compra> compras = new ArrayList<>();
 
-		compras.add(compra);
+	// 	compras.add(compra);
 
-		persona.setCompras(compras);
+	// 	persona.setCompras(compras);
 
-		//guardar en la base de datos
-		compradao.save(compra);
+	// 	//guardar en la base de datos
+	// 	compradao.save(compra);
 
-		personadao.save(persona);
+	// 	personadao.save(persona);
 
-		return "persona creada";
-	}
+	// 	return "persona creada";
+	// }
 
 }

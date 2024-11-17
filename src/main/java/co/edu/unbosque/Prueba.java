@@ -7,9 +7,11 @@ import java.util.List;
 
 import co.edu.unbosque.model.EstablecerSecion;
 import co.edu.unbosque.model.HibernateUtil;
+import co.edu.unbosque.model.dao.CuentaContableDAO;
 import co.edu.unbosque.model.dao.PersonaDAO;
 import co.edu.unbosque.model.dao.UsuarioDAO;
 import co.edu.unbosque.model.entity.Auditoria;
+import co.edu.unbosque.model.entity.CuentaContable;
 import co.edu.unbosque.model.entity.Usuario;
 import co.edu.unbosque.model.entity.Venta;
 import co.edu.unbosque.model.service.Contabilidad;
@@ -45,6 +47,11 @@ public class Prueba {
     } else {
         System.out.println("No se encontró el resultado.");
     }
+
+    CuentaContableDAO cuenta = new CuentaContableDAO();
+    short a = 8;
+    CuentaContable n = cuenta.findById(a);
+    System.out.println(n);
 
     // PersonaDAO pdao = new PersonaDAO();
 

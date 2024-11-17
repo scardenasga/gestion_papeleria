@@ -45,7 +45,7 @@ public class EstablecerSecion {
             EntityManager entityManager = HibernateUtil.getInstance().getEntityManager();
             try {
                 entityManager.getTransaction().begin();
-                entityManager.createNativeQuery("SET myapp.usuario_actual = '" + usuarioActual + "'")
+                entityManager.createNativeQuery("SET myapp.usuario_actual = '"+usuarioActual+"';")
                         .executeUpdate();
                 entityManager.getTransaction().commit();
 
