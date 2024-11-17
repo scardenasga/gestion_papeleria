@@ -427,22 +427,74 @@ public class Controller implements ActionListener {
                         new SimpleModalBorder(crearPersona, "Persona", SimpleModalBorder.DEFAULT_OPTION,
                                 (controller, action) -> {
                                     if (action == SimpleModalBorder.OK_OPTION) {
-                                        System.out.println("se acepto");
-                                        System.out.println(crearPersona.getIdentificacion().getText());
-                                        System.out.println(crearPersona.getPrimerNombre().getText() + " "
-                                                + crearPersona.getSegundoApellido().getText() + " "
-                                                + crearPersona.getPrimerApellido().getText() + " "
-                                                + crearPersona.getSegundoApellido().getText());
-                                        System.out.println(crearPersona.getTelefono().getText());
-                                        System.out.println(crearPersona.getDatePicker().getSelectedDate());
-                                        System.out.println(crearPersona.getTipoUsuario().getSelectedItem());
 
+                                        System.out.println("se acepto");
+                                        
+                                        String cedula=crearPersona.getIdentificacion().getText();
+                                        String nombre1=crearPersona.getPrimerNombre().getText();
+                                        String nombre2=crearPersona.getSegundoNombre().getText();
+                                        String apellido1=crearPersona.getPrimerApellido().getText();
+                                        String apellido2=crearPersona.getSegundoApellido().getText();
+                                        String telefono=crearPersona.getTelefono().getText();
+                                        LocalDate fecha_nacimiento =crearPersona.getDatePicker().getSelectedDate();
+                                        TipoUsuario tipo_usuario=(TipoUsuario)crearPersona.getTipoUsuario().getSelectedItem();
+                                        if(cedula==null || nombre1==null ||apellido1==null ||apellido2==null ||fecha_nacimiento==null ||tipo_usuario==null){
+                                            JOptionPane.showMessageDialog(null, "recuerde rellenar todos los campos");
+
+                                        }else{
+                                        if (cedula.length()!=10) {
+                                            JOptionPane.showMessageDialog(null, "cédula inválida");
+                                            
+                                        }else{
+                                        try{
+                                            Long cedula2=Long.parseLong(cedula);
+                                            Long telefono2=Long.parseLong(telefono);
+
+                                        
+                                        
+                                        
+                                        String caracteres="qwertyuiopasdfghjklñzxcvbnmQWERTYUIOPASDFGHJKLÑZXCVBNM";
+                                        String letras=nombre1+nombre2+apellido1+apellido2;
+                                        int nonumeros=0;
+                                        for (int i = 0; i < letras.length(); i++) {
+                                                if(!caracteres.contains(String.valueOf(letras.charAt(i)))){
+                                                nonumeros++;
+                                            }
+                                        }
+                                        if(nonumeros>0){
+                                            JOptionPane.showMessageDialog(null, "no se pueden introdicir números, puntuación ni carácteres especiales en los nombres y apellidos");
+
+                                        }else{
+
+                                        System.out.println("se acepto");
+                                        System.out.println(cedula);
+                                        System.out.println(nombre1 + " "
+                                                + nombre2 + " "
+                                                + apellido1 + " "
+                                                + apellido2);
+                                        System.out.println(telefono);
+                                        System.out.println(fecha_nacimiento);
+                                        System.out.println(tipo_usuario);
+
+                                        //guardar persona
+                                        
+                                        (new PersonaDAO()).save(new co.edu.unbosque.model.entity.Persona()      );//arreglar esto
+                                        }
+
+}catch(NumberFormatException p){
+                                        JOptionPane.showMessageDialog(null, "cédula o teléfono inválidos. Recuerde que estos solo pueden contener números");
+                                        p.printStackTrace();
+                                    }
+                                    }
+                                }
                                     }
                                     if (action == SimpleModalBorder.CANCEL_OPTION) {
                                         System.out.println("Cancelar");
+                                        
                                     }
 
                                 }));
+
                 break;
             case "personas-eliminar":
                 PanelBorrarPersona borrarPersona = new PanelBorrarPersona();
