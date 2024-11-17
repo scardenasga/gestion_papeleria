@@ -502,7 +502,6 @@ if(entrar){
 
                                         //guardar persona
                                         
-                                        (new PersonaDAO()).save(new co.edu.unbosque.model.entity.Persona()      );//arreglar esto
                                         }
 
 }catch(NumberFormatException p){
