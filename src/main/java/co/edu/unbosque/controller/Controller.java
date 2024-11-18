@@ -329,13 +329,41 @@ public class Controller implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {
             case "login-button":
+UsuarioDAO u=new UsuarioDAO();
+            boolean entrar=false;
 
-                // en esta parte se realiza el inicio de seción
-                establecerSecion.setUsuarioActual("ADMIN");
+            try{
+            List <Usuario> usuarios = u.findAll().get(); 
+        
+            for (Usuario usuario : usuarios) {
+//System.out.println(usuario.getUsername());
+//System.out.println(this.ven.getLogin().getUsername().getText());
+//System.out.println(usuario.getContrasena());
+//System.out.println(this.ven.getLogin().getPassword().getText());
 
-                this.ven.getBg().setVisible(false);
-                this.ven.getPanelHeader().setVisible(true);
-                this.ven.getPanelVenta().setVisible(true);
+                if(usuario.getUsername().equals(this.ven.getLogin().getUsername().getText())){
+
+                    if(usuario.getContrasena().equals(this.ven.getLogin().getPassword().getText())){
+
+                        entrar=true;
+
+                    break;
+                    }
+                }
+            }
+        } catch (InterruptedException | ExecutionException ex) {
+            ex.printStackTrace();
+        }
+if(entrar){
+    establecerSecion.setUsuarioActual("ADMIN");
+                        entrar=true;
+                    this.ven.getBg().setVisible(false);
+                    this.ven.getPanelHeader().setVisible(true);
+                    this.ven.getPanelVenta().setVisible(true);
+                    break;
+}else{
+                        JOptionPane.showMessageDialog(null, "Usuario o contraseña no encontrado", "Error de autenticación", JOptionPane.ERROR_MESSAGE);
+}
                 break;
             case "pedido-crear":
                 PanelDatosPedido crearPedido = new PanelDatosPedido();
