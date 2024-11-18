@@ -45,6 +45,8 @@ import co.edu.unbosque.view.util.table.CustomTableModel;
 import net.miginfocom.swing.MigLayout;
 import raven.modal.ModalDialog;
 import raven.modal.component.SimpleModalBorder;
+import java.util.concurrent.ExecutionException;
+import javax.swing.JOptionPane;
 
 public class Controller implements ActionListener {
 
