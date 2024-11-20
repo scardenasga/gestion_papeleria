@@ -127,42 +127,88 @@ public class Contabilidad {
      * @param efectivoFinal El efectivo final a registrar.
      * @return Un CompletableFuture que indica la finalización de la operación.
      */
-    public CompletableFuture<Void> registrarCierreCaja(LocalDate fecha, BigDecimal efectivoFinal) {
+    public CompletableFuture<Void> registrarCierreCaja(java.sql.Date fecha, BigDecimal efectivoFinal) {
         AsientoContable asiento = AsientoContable.builder()
-            .fechaAsiento(java.sql.Timestamp.valueOf(fecha.atStartOfDay()))
+            .fechaAsiento(new Timestamp(fecha.getTime())) // Usa java.sql.Date para crear Timestamp
             .total(efectivoFinal)
             .build();
-
+    
         return CompletableFuture.runAsync(() -> cuentaDAO.save(asiento));
     }
 
+    
     /**
-     * Realiza el cierre de caja para una fecha específica.
+     * Realiza el cierre de caja para la fecha actual.
      *
-     * @param fecha La fecha para la cual se realizará el cierre de caja.
      * @return Un CompletableFuture que indica la finalización de la operación.
      */
-    public CompletableFuture<Void> realizarCierreCaja(LocalDate fecha) {
-        return calcularEfectivoFinal(fecha)
-            .thenCompose(efectivoFinal -> registrarCierreCaja(fecha, efectivoFinal));
+    public CompletableFuture<Void> realizarCierreCaja() {
+        // Obtener la fecha actual
+        LocalDate fechaActual = LocalDate.now();
+        
+        // Convertir LocalDate a java.sql.Date
+        java.sql.Date sqlDate = java.sql.Date.valueOf(fechaActual);
+        
+        return calcularEfectivoFinal(fechaActual) // Mantener LocalDate para el cálculo
+            .thenCompose(efectivoFinal -> registrarCierreCaja(sqlDate, efectivoFinal)); // Llama a registrarCierreCaja con java.sql.Date
     }
 
-    /**
-     * Calcula el costo total de las ventas en un rango de fechas.
-     *
-     * @param fechaInicio La fecha de inicio del rango.
-     * @param fechaFin La fecha de fin del rango.
-     * @return Un CompletableFuture que contiene el costo total de las ventas en el rango de fechas especificado.
-     */
-    public CompletableFuture<BigDecimal> calcularCostoTotalVentas(LocalDate fechaInicio, LocalDate fechaFin) {
-        return ventaDAO.findByDateRange(fechaInicio, fechaFin)
-            .thenApply(ventas -> {
-                BigDecimal total = BigDecimal.ZERO;
-                for (Venta venta : ventas) {
-                    total = total.add(venta.getTotalVenta()); // Asumiendo que 'getTotalVenta' retorna el costo de la venta
+
+    // Clase interna para almacenar los resultados de costos
+    public class CostosTotales {
+        private BigDecimal costoTotalCompras;
+        private BigDecimal costoTotalVentas;
+
+        public CostosTotales(BigDecimal costoTotalCompras, BigDecimal costoTotalVentas) {
+            this.costoTotalCompras = costoTotalCompras;
+            this.costoTotalVentas = costoTotalVentas;
+        }
+
+        public BigDecimal getCostoTotalCompras() {
+            return costoTotalCompras;
+        }
+
+        public BigDecimal getCostoTotalVentas() {
+            return costoTotalVentas;
+        }
+    }
+
+    public CompletableFuture<CostosTotales> consultarCostos(LocalDate fechaInicio, LocalDate fechaFin) {
+        return CompletableFuture.supplyAsync(() -> {
+            BigDecimal costoTotalCompras = BigDecimal.ZERO;
+            BigDecimal costoTotalVentas = BigDecimal.ZERO;
+    
+            // Consulta para obtener el costo total de compras
+            String sqlCompras = "SELECT SUM(total_compra) AS costo_total_compras FROM compra";
+            Object[] resultCompras = compraDAO.executeSingleResultQuery(sqlCompras);
+            if (resultCompras != null && resultCompras[0] != null) {
+                costoTotalCompras = (BigDecimal) resultCompras[0];
+            }
+    
+            // Consulta para obtener el costo total de ventas
+            String sqlVentas = "SELECT SUM(total_venta) AS costo_total_ventas FROM venta";
+            Object[] resultVentas = ventaDAO.executeSingleResultQuery(sqlVentas);
+            if (resultVentas != null && resultVentas[0] != null) {
+                costoTotalVentas = (BigDecimal) resultVentas[0];
+            }
+    
+            // Si se proporcionan fechas, calcular costos en el rango
+            if (fechaInicio != null && fechaFin != null) {
+                String sqlComprasRango = "SELECT SUM(total_compra) AS costo_total_compras FROM compra WHERE fecha_compra BETWEEN ? AND ?";
+                Object[] resultComprasRango = compraDAO.executeSingleResultQuery(sqlComprasRango, fechaInicio, fechaFin);
+                if (resultComprasRango != null && resultComprasRango[0] != null) {
+                    costoTotalCompras = (BigDecimal) resultComprasRango[0];
                 }
-                return total;
-            });
+    
+                String sqlVentasRango = "SELECT SUM(total_venta) AS costo_total_ventas FROM venta WHERE fecha_venta BETWEEN ? AND ?";
+                Object[] resultVentasRango = ventaDAO.executeSingleResultQuery(sqlVentasRango, fechaInicio, fechaFin);
+                if (resultVentasRango != null && resultVentasRango[0] != null) {
+                    costoTotalVentas = (BigDecimal) resultVentasRango[0];
+                }
+            }
+    
+            return new CostosTotales(costoTotalCompras, costoTotalVentas);
+        });
     }
 
     /**
