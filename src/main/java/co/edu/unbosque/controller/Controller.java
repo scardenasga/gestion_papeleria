@@ -9,8 +9,10 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.UIManager;
 import javax.swing.event.DocumentEvent;
@@ -323,6 +325,17 @@ public class Controller implements ActionListener {
 
         this.ven.getPanelPersonas().getActualizar().setActionCommand("personas-actualizar");
         this.ven.getPanelPersonas().getActualizar().addActionListener(this); // Asigna el ActionListener
+    
+            // Venta
+            this.ven.getPanelVenta().getConfirmarVenta().setActionCommand("venta-agregar"); /////////////////////////
+            this.ven.getPanelVenta().getConfirmarVenta().addActionListener(this); // Asigna el ActionListener //////////////////////////
+    
+            this.ven.getPanelVenta().getAgregarProducto().setActionCommand("producto-agregar"); /////////////////////////
+            this.ven.getPanelVenta().getAgregarProducto().addActionListener(this); // Asigna el ActionListener //////////////////////////
+            
+            this.ven.getPanelVenta().getCancelarVenta().setActionCommand("venta-cancelar"); /////////////////////////
+            this.ven.getPanelVenta().getCancelarVenta().addActionListener(this); // Asigna el ActionListener //////////////////////////
+    
     }
 
     @Override
@@ -330,12 +343,42 @@ public class Controller implements ActionListener {
         switch (e.getActionCommand()) {
             case "login-button":
 
-                // en esta parte se realiza el inicio de seción
-                establecerSecion.setUsuarioActual("ADMIN");
+                UsuarioDAO us=new UsuarioDAO();
+            boolean entrar=false;
 
-                this.ven.getBg().setVisible(false);
-                this.ven.getPanelHeader().setVisible(true);
-                this.ven.getPanelVenta().setVisible(true);
+            try{
+            List <Usuario> usuarios = us.findAll().get(); 
+        
+            for (Usuario usuario : usuarios) {
+//System.out.println(usuario.getUsername());
+//System.out.println(this.ven.getLogin().getUsername().getText());
+//System.out.println(usuario.getContrasena());
+//System.out.println(this.ven.getLogin().getPassword().getText());
+
+                if(usuario.getUsername().equals(this.ven.getLogin().getUsername().getText())){
+
+                    if(usuario.getContrasena().equals(this.ven.getLogin().getPassword().getText())){
+
+                        entrar=true;
+
+                    break;
+                    } 
+                }
+            }
+        } catch (InterruptedException | ExecutionException ex) {
+            ex.printStackTrace();
+        }
+        if(entrar){
+
+    establecerSecion.setUsuarioActual("ADMIN");
+                    this.ven.getBg().setVisible(false);
+                    this.ven.getPanelHeader().setVisible(true);
+                    this.ven.getPanelVenta().setVisible(true);
+                    
+            }else{
+                        JOptionPane.showMessageDialog(null, "Usuario o contraseña no encontrado", "Error de autenticación", JOptionPane.ERROR_MESSAGE);
+            }
+
                 break;
             case "pedido-crear":
                 PanelDatosPedido crearPedido = new PanelDatosPedido();

@@ -21,10 +21,14 @@ import javax.swing.table.DefaultTableModel;
 
 import com.formdev.flatlaf.FlatClientProperties;
 
+import lombok.Getter;
+import lombok.Setter;
 import net.miginfocom.swing.MigLayout;
 import raven.modal.component.ModalBorderAction;
 import raven.modal.component.SimpleModalBorder;
 
+@Getter
+@Setter
 public class PanelVenta extends JPanel {
 
     private JButton crearCliente;
