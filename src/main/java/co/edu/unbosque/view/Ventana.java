@@ -13,6 +13,16 @@ import co.edu.unbosque.view.panel.PanelInventario;
 import co.edu.unbosque.view.panel.PanelPedidos;
 import co.edu.unbosque.view.panel.PanelPersonas;
 import co.edu.unbosque.view.panel.PanelProveedores;
+
+import co.edu.unbosque.view.panel.PanelCierreDeCaja;
+import co.edu.unbosque.view.panel.PanelConsultarCostos;
+import co.edu.unbosque.view.panel.PanelConsultarVentas;
+import co.edu.unbosque.view.panel.PanelRegistrarCostosYGastos;
+import co.edu.unbosque.view.panel.PanelGenerarFacturacionElectronica;
+
+import co.edu.unbosque.model.service.Contabilidad;
+
+
 import co.edu.unbosque.view.panel.PanelVenta;
 import co.edu.unbosque.view.util.login.BackGround;
 import co.edu.unbosque.view.util.menu.MenuDesplegable;
@@ -38,6 +48,14 @@ public class Ventana extends JFrame {
     private PanelPersonas panelPersonas;
     private PanelProveedores panelProveedores;
     private PanelContabilidad panelContabilidad;
+
+    private PanelCierreDeCaja panelCierreDeCaja;
+    private PanelConsultarCostos panelConsultarCostos;
+    private PanelConsultarVentas panelConsultarVentas;
+    private PanelRegistrarCostosYGastos panelRegistrarCostosyGastos;
+    private PanelGenerarFacturacionElectronica panelGenerarFacturacionElectronica;
+
+    private Contabilidad contabilidad;
     
 
     public Ventana(){
@@ -121,8 +139,29 @@ public class Ventana extends JFrame {
         panelProveedores = new PanelProveedores();
         this.add(panelProveedores,gbc);
 
-        // panelContabilidad = new PanelContabilidad();
-        // this.add(panelContabilidad,gbc);
+        panelContabilidad = new PanelContabilidad();
+        panelContabilidad.setVisible(false); // Asegúrate de que esté inicialmente oculto
+        this.add(panelContabilidad, gbc);
+
+        panelCierreDeCaja = new PanelCierreDeCaja(contabilidad);
+        panelCierreDeCaja.setVisible(false); // Asegúrate de que esté inicial
+        this.add(panelCierreDeCaja, gbc);
+
+        panelConsultarCostos = new PanelConsultarCostos(contabilidad);
+        panelConsultarCostos.setVisible(false); // Asegúrate de que esté inicialmente oculto
+        this.add(panelConsultarCostos, gbc);
+
+        panelConsultarVentas = new PanelConsultarVentas();
+        panelConsultarVentas.setVisible(false);
+        this.add(panelConsultarVentas, gbc);
+
+        panelRegistrarCostosyGastos = new PanelRegistrarCostosYGastos();
+        panelRegistrarCostosyGastos.setVisible(false);
+        this.add(panelRegistrarCostosyGastos, gbc);
+
+        panelGenerarFacturacionElectronica = new PanelGenerarFacturacionElectronica();
+        panelGenerarFacturacionElectronica.setVisible(false);
+        this.add(panelGenerarFacturacionElectronica, gbc);
 
 
     }
@@ -138,7 +177,12 @@ public class Ventana extends JFrame {
                 this.panelInventario.setVisible(false);
                 this.panelPersonas.setVisible(false);
                 this.panelProveedores.setVisible(false);
-                // this.panelContabilidad.setVisible(false);
+                this.panelContabilidad.setVisible(false);
+                this.panelCierreDeCaja.setVisible(false);
+                this.panelConsultarCostos.setVisible(false);
+                this.panelConsultarVentas.setVisible(false);
+                this.panelRegistrarCostosyGastos.setVisible(false);
+                this.panelGenerarFacturacionElectronica.setVisible(false);
 
                 Drawer.getInstance().closeDrawer();
                 break;
@@ -151,7 +195,12 @@ public class Ventana extends JFrame {
                 this.panelInventario.setVisible(false);
                 this.panelPersonas.setVisible(false);
                 this.panelProveedores.setVisible(false);
-                // this.panelContabilidad.setVisible(false);
+                this.panelContabilidad.setVisible(false);
+                this.panelCierreDeCaja.setVisible(false);
+                this.panelConsultarCostos.setVisible(false);
+                this.panelConsultarVentas.setVisible(false);
+                this.panelRegistrarCostosyGastos.setVisible(false);
+                this.panelGenerarFacturacionElectronica.setVisible(false);
 
                 Drawer.getInstance().closeDrawer();
                 break;
@@ -164,7 +213,12 @@ public class Ventana extends JFrame {
                 this.panelInventario.setVisible(true);
                 this.panelPersonas.setVisible(false);
                 this.panelProveedores.setVisible(false);
-                // this.panelContabilidad.setVisible(false);
+                this.panelContabilidad.setVisible(false);
+                this.panelCierreDeCaja.setVisible(false);
+                this.panelConsultarCostos.setVisible(false);
+                this.panelConsultarVentas.setVisible(false);
+                this.panelRegistrarCostosyGastos.setVisible(false);
+                this.panelGenerarFacturacionElectronica.setVisible(false);
                 
                 Drawer.getInstance().closeDrawer();
                 break;
@@ -177,7 +231,12 @@ public class Ventana extends JFrame {
                 this.panelInventario.setVisible(false);
                 this.panelPersonas.setVisible(true);
                 this.panelProveedores.setVisible(false);
-                // this.panelContabilidad.setVisible(false);
+                this.panelContabilidad.setVisible(false);
+                this.panelCierreDeCaja.setVisible(false);
+                this.panelConsultarCostos.setVisible(false);
+                this.panelConsultarVentas.setVisible(false);
+                this.panelRegistrarCostosyGastos.setVisible(false);
+                this.panelGenerarFacturacionElectronica.setVisible(false);
 
                 Drawer.getInstance().closeDrawer();
                 break;
@@ -194,57 +253,26 @@ public class Ventana extends JFrame {
 
             //     Drawer.getInstance().closeDrawer();
             //     break;
-            case "40":
+            case "40": // Este caso puede ser para Contabilidad
                 System.out.println("Opción seleccionada: Contabilidad");
                 this.panelHeader.getTitulo().setText("Contabilidad");
 
+            // Mostrar solo el PanelConsultarCostos
                 this.panelVenta.setVisible(false);
                 this.panelPedidos.setVisible(false);
                 this.panelInventario.setVisible(false);
                 this.panelPersonas.setVisible(false);
                 this.panelProveedores.setVisible(false);
-                // this.panelContabilidad.setVisible(true);
-                
-                break;
-            case "41":
-                System.out.println("Opción seleccionada: Ventas");
-                this.panelHeader.getTitulo().setText("Contabilidad > Ventas");
-
-                this.panelVenta.setVisible(false);
-                this.panelPedidos.setVisible(false);
-                this.panelInventario.setVisible(false);
-                this.panelPersonas.setVisible(false);
-                this.panelProveedores.setVisible(false);
-                // this.panelContabilidad.setVisible(true);
+                this.panelContabilidad.setVisible(true);
+                this.panelCierreDeCaja.setVisible(false);
+                this.panelConsultarCostos.setVisible(false); // Mostrar el panel de consultar costos
+                this.panelConsultarVentas.setVisible(false);
+                this.panelRegistrarCostosyGastos.setVisible(false);
+                this.panelGenerarFacturacionElectronica.setVisible(false);
 
                 Drawer.getInstance().closeDrawer();
                 break;
-            case "42":
-                System.out.println("Opción seleccionada: Costos");
-                this.panelHeader.getTitulo().setText("Contabilidad > Costos");
 
-                this.panelVenta.setVisible(false);
-                this.panelPedidos.setVisible(false);
-                this.panelInventario.setVisible(false);
-                this.panelPersonas.setVisible(false);
-                this.panelProveedores.setVisible(false);
-                // this.panelContabilidad.setVisible(true);
-
-                Drawer.getInstance().closeDrawer();
-                break;
-            case "43":
-                System.out.println("Opción seleccionada: Cierre de Caja");
-                this.panelHeader.getTitulo().setText("Contabilidad > Cierre de Caja");
-
-                this.panelVenta.setVisible(false);
-                this.panelPedidos.setVisible(false);
-                this.panelInventario.setVisible(false);
-                this.panelPersonas.setVisible(false);
-                this.panelProveedores.setVisible(false);
-                // this.panelContabilidad.setVisible(true);
-
-                Drawer.getInstance().closeDrawer();
-                break;
             case "50":
                 System.out.println("Opción seleccionada: Cerrar Secion");
                 System.exit(1);
