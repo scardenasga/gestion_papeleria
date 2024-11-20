@@ -73,7 +73,7 @@ public class PanelVenta extends JPanel {
         formulario.add(labelInformacion, "gapy 10 10,span 2, width 200:300:400, height 50:60:70");
 
         
-        JLabel labelIdentificacion = new JLabel("Identificación");
+        JLabel labelIdentificacion = new JLabel("cédula");
         labelIdentificacion.setFont(new Font("Roboto",Font.PLAIN + Font.BOLD,16));
         formulario.add(labelIdentificacion, "gapy n 5");
 
@@ -104,7 +104,7 @@ public class PanelVenta extends JPanel {
         agregarProducto = new JButton("Agregar");
         formulario.add(agregarProducto,"pad 0 5 0 0, width 50:60:80, growy");
 
-        total = new JLabel("$0.00");
+        total = new JLabel("");
         total.setFont(new Font("Roboto", Font.PLAIN+Font.ITALIC,40));
         total.setHorizontalAlignment(SwingConstants.RIGHT);
         formulario.add(total,"span 2, pad 0 0 0 20");
