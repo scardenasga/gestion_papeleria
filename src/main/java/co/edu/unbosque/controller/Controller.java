@@ -782,6 +782,24 @@ public class Controller implements ActionListener {
                                         TipoUsuario user = (TipoUsuario) crearPersona.getTipoUsuario()
                                                 .getSelectedItem();
 
+                                                if (esNuloOVacio(identificacion) || esNuloOVacio(pnombre) ||
+                                                esNuloOVacio(papellido) || esNuloOVacio(sapellido) || nacimiento == null ||
+                                                esNuloOVacio(telefono) || user == null) {
+                                                JOptionPane.showMessageDialog(null, "Rellene todos los campos");
+                                            }
+                                                else if(contieneSoloLetras(pnombre+snombre+papellido+sapellido)){
+                                                JOptionPane.showMessageDialog(null, "recuerde que los nombres y apellidos deben tener solamente letras");
+                                            }
+                                            else if (!esSoloNumeros(identificacion) || !esSoloNumeros(telefono)) {
+                                                JOptionPane.showMessageDialog(null, "La cédula y el teléfono sólo pueden contener números");
+                                            }
+
+                                            else if (identificacion.length()!=10) {
+                                                JOptionPane.showMessageDialog(null, "cédula inválida");
+                                            }
+
+                                        else{
+
                                         Persona p = Persona.builder()
                                                 .identificacion(identificacion)
                                                 .primerNombre(pnombre)
@@ -812,12 +830,15 @@ public class Controller implements ActionListener {
                                             personaService.crearPersona(p);
                                         }
 
+                                        JOptionPane.showMessageDialog(null, "persona creada");
+
                                         List<Object[]> usuarios = personaService.query(sqlpersonas);
                                         tableModelPersonas = new CustomTableModel(cabeceraPersonas, usuarios);
                                         // this.ven.getPanelPersonas().getTablaPersonas().setModel(tableModelInventario);
                                         personaTableConfig();
 
                                     }
+                                }
                                     if (action == SimpleModalBorder.CANCEL_OPTION) {
                                         System.out.println("Cancelar");
                                     }
@@ -961,5 +982,27 @@ public class Controller implements ActionListener {
                 break;
         }
     }
+
+
+    private static boolean contieneSoloLetras(String cadena) {
+        // Verifica que cada carácter sea una letra
+        for (char c : cadena.toCharArray()) {
+            if (!Character.isLetter(c)) { // Si encuentra algo que no sea letra
+                return true; // Retorna true
+            }
+        }
+        return false; // Retorna false si todos los caracteres son letras
+    }
+
+        // Método auxiliar para verificar si una cadena es nula o está vacía
+        private static boolean esNuloOVacio(String campo) {
+            return campo == null || campo.trim().isEmpty();
+        }
+        private static boolean esSoloNumeros(String cadena) {
+            // Verifica que la cadena no sea nula ni vacía y que contenga solo dígitos
+            return cadena != null && cadena.matches("\\d+");
+        }
+
+
 
 }

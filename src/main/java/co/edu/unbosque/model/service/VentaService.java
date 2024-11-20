@@ -68,9 +68,7 @@ public class VentaService {
 	 //para cuando la persona ya está registrada
 	 public String createVenta(Long id, JTable detalles, String identificacion) {
 	 	//try {
-System.out.println(1);
 	 		Timestamp fecha = new Timestamp(new Date().getTime());
-			 System.out.println(2);
 			 System.out.println("id "+identificacion);
 
 
@@ -83,12 +81,10 @@ System.out.println(1);
 			 }
 
 	 		Venta venta = new Venta(id, fecha, null, null, null, persona);
-	 		System.out.println(7);
 
 			// Obtener el número de filas y columnas directamente desde la tabla
 			int rowCount = detalles.getRowCount();
 			List <DetalleVenta> detalleVen=new ArrayList<DetalleVenta>();
-			System.out.println(8);
 
 
 			// Inicializar la variable para acumular el total general
@@ -101,18 +97,15 @@ System.out.println(1);
 			for (int i = 0; i < rowCount; i++) {
 			// Obtener el valor de la primera columna como String
 			String codigo = (String) detalles.getValueAt(i, 0);
-			System.out.println(9);
 
 			// Obtener el valor de la segunda columna como int
 			int cantidad = (int) detalles.getValueAt(i, 1);
-			System.out.println(10);
 
 			// Buscar el producto por su código
 			Producto pro = (new ProductoDAO()).findById(codigo);
 			if (pro==null){
 				return "el producto " + " no existe";
 			}
-			System.out.println(11);
 
 			// Obtener el precio usando el método findById de ProductoDAO
 			BigDecimal precio = pro.getPrecio();
@@ -134,37 +127,30 @@ System.out.println(1);
 			System.out.println("Total general: " + totalGeneral);
 
 
-			System.out.println(11.1);
 
 			Compra compra=new Compra(id, fecha, totalGeneral, null, null, persona); //al final actualizar los asientos contables
 	 			
-				 System.out.println(11.2);
 
 	 			 //actualizar las compras
 	 			List<Compra> compras = new ArrayList<>();
 	 			compras.add(compra);
-				 System.out.println(11.3);
 
 	 			persona.setCompras(compras);
 	 			personadao.update(identificacion, persona);
 
 
 
-			System.out.println(12);
 
 			venta.setDetalleVentas(detalleVen);
-			System.out.println(12.1);
 
 
 			venta.setTotalVenta(totalGeneral);
 
 
-			System.out.println(13);
 
 			contabilidad.agregarVenta(venta);
 			compra.setAsientoContable((new VentaDAO()).findById(venta.getIdVenta()).getAsientoContable());
 			compradao.save(compra);
-			System.out.println(14);
 
 	 		return "la venta se ha creado con exito";
 	 	//} catch (Exception e) {
