@@ -6,13 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import co.edu.unbosque.model.service.Contabilidad;
 
-// Asegúrate de que estos imports sean correctos y que las clases existan
-import co.edu.unbosque.view.panel.PanelCierreDeCaja;
-import co.edu.unbosque.view.panel.PanelConsultarCostos;
-import co.edu.unbosque.view.panel.PanelConsultarVentas;
-import co.edu.unbosque.view.panel.PanelRegistrarCostosYGastos;
-import co.edu.unbosque.view.panel.PanelGenerarFacturacionElectronica;
-
 public class PanelContabilidad extends JPanel {
 
     private PanelCierreDeCaja panelCierreDeCaja;
@@ -28,90 +21,82 @@ public class PanelContabilidad extends JPanel {
         contabilidad = new Contabilidad(); // Inicializa la clase Contabilidad
         
         // Inicializar los paneles
-        panelCierreDeCaja = new PanelCierreDeCaja();
-        panelConsultarCostos = new PanelConsultarCostos();
+        mainPanel = new JPanel();
+        panelCierreDeCaja = new PanelCierreDeCaja(contabilidad);
+        panelConsultarCostos = new PanelConsultarCostos(contabilidad);
         panelConsultarVentas = new PanelConsultarVentas();
         panelRegistrarCostosYGastos = new PanelRegistrarCostosYGastos();
         panelGenerarFacturacionElectronica = new PanelGenerarFacturacionElectronica();
 
         // Configuración del panel
-        setLayout(new GridLayout(6, 1)); // 6 filas, 1 columna
+        setLayout(new BorderLayout()); // Cambiar a BorderLayout
+
+        // Crear un panel para los botones
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new GridLayout(6, 1)); // 6 filas, 1 columna
 
         // Crear botones
         JButton btnCierreCaja = new JButton("Realizar Cierre de Caja");
-        JButton btnCalcularCostoTotalVentas = new JButton("Calcular Costo Total Ventas");
+        JButton btnConsultarCostoTotalVentas = new JButton("Consultar Costos");
         JButton btnConsultarVentasPorFecha = new JButton("Consultar Ventas por Fecha");
-        JButton btnRegistrarCosto = new JButton("Registrar Costo");
-        JButton btnRegistrarGasto = new JButton("Registrar Gasto");
+        JButton btnRegistrarCostoYGatstos = new JButton("Registrar Costo y Gastos");
         JButton btnGenerarFacturacionElectronica = new JButton("Generar Facturación Electrónica");
 
         // Añadir ActionListeners a los botones
         btnCierreCaja.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                mainPanel.removeAll(); // Limpiar el panel principal
-                mainPanel.add(panelCierreDeCaja); // Añadir el nuevo panel
-                mainPanel.revalidate(); // Revalidar el panel
-                mainPanel.repaint(); // Repintar el panel
+                showPanel(panelCierreDeCaja);
             }
         });
 
-        btnCalcularCostoTotalVentas.addActionListener(new ActionListener() {
+        btnConsultarCostoTotalVentas.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                mainPanel.removeAll();
-                mainPanel.add(panelConsultarCostos); // Usa la variable
-                mainPanel.revalidate();
-                mainPanel.repaint();
+                showPanel(panelConsultarCostos);
             }
         });
 
         btnConsultarVentasPorFecha.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                mainPanel.removeAll();
-                mainPanel.add(panelConsultarVentas); // Usa la variable
-                mainPanel.revalidate();
-                mainPanel.repaint();
+                showPanel(panelConsultarVentas);
             }
         });
 
-        btnRegistrarCosto.addActionListener(new ActionListener() {
+        btnRegistrarCostoYGatstos.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                mainPanel.removeAll();
-                mainPanel.add(panelRegistrarCostosYGastos); // Usa la variable
-                mainPanel.revalidate();
-                mainPanel.repaint();
-            }
-        });
-
-        btnRegistrarGasto.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                mainPanel.removeAll();
-                mainPanel.add(panelRegistrarCostosYGastos); // Usa la variable
-                mainPanel.revalidate();
-                mainPanel.repaint();
+                showPanel(panelRegistrarCostosYGastos);
             }
         });
 
         btnGenerarFacturacionElectronica.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                mainPanel.removeAll();
-                mainPanel.add(panelGenerarFacturacionElectronica); // Usa la variable
-                mainPanel.revalidate();
-                mainPanel.repaint();
+                showPanel(panelGenerarFacturacionElectronica);
             }
         });
 
-        // Añadir botones al panel
-        add(btnCierreCaja);
-        add(btnCalcularCostoTotalVentas);
-        add(btnConsultarVentasPorFecha);
-        add(btnRegistrarCosto);
-        add(btnRegistrarGasto);
-        add(btnGenerarFacturacionElectronica);
+        // Añadir botones al panel de botones
+        buttonPanel.add(btnCierreCaja);
+        buttonPanel.add(btnConsultarCostoTotalVentas);
+        buttonPanel.add(btnConsultarVentasPorFecha);
+        buttonPanel.add(btnRegistrarCostoYGatstos);
+        buttonPanel.add(btnGenerarFacturacionElectronica);
+
+        // Añadir el panel de botones y el mainPanel al PanelContabilidad
+        add(buttonPanel, BorderLayout.WEST); // Añadir el panel de botones a la izquierda
+        add(mainPanel, BorderLayout.CENTER); // Añadir el mainPanel al centro
+
+        // Inicialmente, podemos mostrar un panel vacío o un mensaje
+        mainPanel.add(new JLabel("Seleccione una opción")); // Mensaje inicial
+    }
+
+    private void showPanel(JPanel panel) {
+        mainPanel.removeAll(); // Limpiar el panel principal
+        mainPanel.add(panel); // Añadir el nuevo panel
+        mainPanel.revalidate(); // Revalidar el panel
+        mainPanel.repaint(); // Repintar el panel
     }
 }
