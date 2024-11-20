@@ -75,12 +75,14 @@ System.out.println(1);
 
 
 	 		Persona persona = personadao.findById(identificacion);
+			System.out.println(persona);
+			System.out.println(identificacion);
 
 			 if (persona==null || identificacion==null){
 				return "no se ha encontrado la persona";
 			 }
 
-	 		Venta venta = new Venta(id, fecha, null, null, null, null, persona);
+	 		Venta venta = new Venta(id, fecha, null, null, null, persona);
 	 		System.out.println(7);
 
 			// Obtener el número de filas y columnas directamente desde la tabla

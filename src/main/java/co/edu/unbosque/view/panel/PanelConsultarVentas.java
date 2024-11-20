@@ -72,7 +72,7 @@ public class PanelConsultarVentas extends JPanel {
         for (int i = 0; i < ventas.size(); i++) {
             Venta venta = ventas.get(i);
             data[i][0] = venta.getIdVenta(); // Usar getIdVenta() para obtener el ID
-            data[i][1] = venta.getDescripcion(); // Usar getDescripcion() para obtener la descripción
+            //data[i][1] = venta.getDescripcion(); // Usar getDescripcion() para obtener la descripción
             data[i][2] = venta.getTotalVenta();
             data[i][3] = venta.getFechaVenta();
         }
