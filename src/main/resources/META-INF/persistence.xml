@@ -24,8 +24,8 @@
         <properties>
             <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver" />
             <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/rosita" />
-            <property name="jakarta.persistence.jdbc.user" value="catarsis" />
-            <property name="jakarta.persistence.jdbc.password" value="Tutiempollama" />
+            <property name="jakarta.persistence.jdbc.user" value="postgres" />
+            <property name="jakarta.persistence.jdbc.password" value="1234" />
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
             <property name="hibernate.hbm2ddl.auto" value="validate" />
 

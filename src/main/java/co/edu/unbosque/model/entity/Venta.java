@@ -38,8 +38,8 @@ public class Venta implements Serializable {
     @Column(name="total_venta")
     private BigDecimal totalVenta;
 
-    @Column(name="descripcion") // Asegúrate de que esta columna exista en tu base de datos
-    private String descripcion; // Nuevo atributo
+    //@Column(name="descripcion") // Asegúrate de que esta columna exista en tu base de datos
+    //private String descripcion; // Nuevo atributo
 
     // bi-directional many-to-one association to DetalleVenta
     @OneToMany(mappedBy="venta")
@@ -61,9 +61,9 @@ public class Venta implements Serializable {
         return idVenta;
     }
 
-    public String getDescripcion() { // Método para obtener la descripción
-        return descripcion;
-    }
+    //public String getDescripcion() { // Método para obtener la descripción
+    //    return descripcion;
+    //}
 
     public BigDecimal getTotalVenta() {
         return totalVenta;

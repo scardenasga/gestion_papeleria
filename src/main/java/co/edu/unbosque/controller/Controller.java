@@ -9,12 +9,15 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.UIManager;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.table.DefaultTableModel;
 
 import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
@@ -32,6 +35,7 @@ import co.edu.unbosque.model.entity.Usuario;
 import co.edu.unbosque.model.service.CompraService;
 import co.edu.unbosque.model.service.InventarioService;
 import co.edu.unbosque.model.service.PersonaService;
+import co.edu.unbosque.model.service.VentaService;
 import co.edu.unbosque.view.Ventana;
 import co.edu.unbosque.view.panel.inventario.PanelBorrarInventario;
 import co.edu.unbosque.view.panel.inventario.PanelDatosInventario;
@@ -85,6 +89,11 @@ public class Controller implements ActionListener {
     private CustomTableModel tableModelPedidos;
     private CustomTableModel tableModelInventario;
     private CustomTableModel tableModelPersonas;
+
+    private JTable table; 
+    private DefaultTableModel model; 
+    private String codigo_del_producto; 
+    private String idCliente; 
 
     public Controller() {
         FlatRobotoFont.install();
@@ -285,6 +294,9 @@ public class Controller implements ActionListener {
                 .setCellEditor(new CheckBoxEditor());
         this.ven.getPanelInventario().getTablaInventario().getColumnModel().getColumn(0)
                 .setCellRenderer(new CheckBoxRenderer());
+
+        this.table = this.ven.getPanelVenta().getProductTable(); 
+        this.model = (DefaultTableModel) table.getModel(); 
     }
 
     public void addActionListeners() {
@@ -323,6 +335,20 @@ public class Controller implements ActionListener {
 
         this.ven.getPanelPersonas().getActualizar().setActionCommand("personas-actualizar");
         this.ven.getPanelPersonas().getActualizar().addActionListener(this); // Asigna el ActionListener
+    
+            // Venta
+            this.ven.getPanelVenta().getConfirmarVenta().setActionCommand("venta-agregar"); 
+            this.ven.getPanelVenta().getConfirmarVenta().addActionListener(this); // Asigna el ActionListener 
+    
+            this.ven.getPanelVenta().getAgregarProducto().setActionCommand("producto-agregar"); 
+            this.ven.getPanelVenta().getAgregarProducto().addActionListener(this); // Asigna el ActionListener 
+            
+            this.ven.getPanelVenta().getCancelarVenta().setActionCommand("venta-cancelar"); 
+            this.ven.getPanelVenta().getCancelarVenta().addActionListener(this); // Asigna el ActionListener 
+    
+            this.ven.getPanelVenta().getCrearCliente().setActionCommand("personas-crear"); 
+            this.ven.getPanelVenta().getCrearCliente().addActionListener(this); // Asigna el ActionListener 
+    
     }
 
     @Override
@@ -330,13 +356,125 @@ public class Controller implements ActionListener {
         switch (e.getActionCommand()) {
             case "login-button":
 
-                // en esta parte se realiza el inicio de seción
-                establecerSecion.setUsuarioActual("ADMIN");
+                UsuarioDAO us=new UsuarioDAO();
+            boolean entrar=false;
 
-                this.ven.getBg().setVisible(false);
-                this.ven.getPanelHeader().setVisible(true);
-                this.ven.getPanelVenta().setVisible(true);
+            try{
+            List <Usuario> usuarios = us.findAll().get(); 
+        
+            for (Usuario usuario : usuarios) {
+//System.out.println(usuario.getUsername());
+//System.out.println(this.ven.getLogin().getUsername().getText());
+//System.out.println(usuario.getContrasena());
+//System.out.println(this.ven.getLogin().getPassword().getText());
+
+                if(usuario.getUsername().equals(this.ven.getLogin().getUsername().getText())){
+
+                    if(usuario.getContrasena().equals(this.ven.getLogin().getPassword().getText())){
+
+                        entrar=true;
+
+                    break;
+                    } 
+                }
+            }
+        } catch (InterruptedException | ExecutionException ex) {
+            ex.printStackTrace();
+        }
+        if(entrar){
+
+    establecerSecion.setUsuarioActual("ADMIN");
+                    this.ven.getBg().setVisible(false);
+                    this.ven.getPanelHeader().setVisible(true);
+                    this.ven.getPanelVenta().setVisible(true);
+                    
+            }else{
+                        JOptionPane.showMessageDialog(null, "Usuario o contraseña no encontrado", "Error de autenticación", JOptionPane.ERROR_MESSAGE);
+            }
+
                 break;
+
+                case "producto-agregar":
+
+
+            // Recuperar los datos de los componentes
+            idCliente = this.ven.getPanelVenta().getIdCliente().getText();
+            codigo_del_producto = this.ven.getPanelVenta().getCodigo().getText();
+            int cantidad_del_producto = (int) this.ven.getPanelVenta().getSpinner().getValue(); // Spinner puede devolver un Object
+
+            if (codigo_del_producto.length() <1 || cantidad_del_producto<1){
+            
+                JOptionPane.showMessageDialog(null, "por favor inserte código y cantidad mayor a 0");
+
+          
+            } else{
+                      // Agregar los datos como una nueva fila en el modelo de la tabla
+            model.addRow(new Object[]{codigo_del_producto, cantidad_del_producto});
+            
+
+            // Opcional: Verificar si los datos se agregaron correctamente
+            System.out.println("Datos agregados a la tabla:");
+            System.out.println("ID Cliente: " + idCliente);
+            System.out.println("Código: " + codigo_del_producto);
+            System.out.println("Cantidad: " + cantidad_del_producto);
+            }
+            break;
+            
+            case "venta-agregar":
+
+            try{
+            // Obtener el número de filas y columnas
+                int rowCount = model.getRowCount();
+                int columnCount = model.getColumnCount();
+            if (idCliente==null){
+                JOptionPane.showMessageDialog(null, "rellene todos los campos");
+            }
+
+                // Recorrer las filas y columnas para imprimir los valores
+                System.out.println("Valores de la tabla:");
+                for (int i = 0; i < rowCount; i++) {
+                    for (int j = 0; j < columnCount; j++) {
+                        // Obtener el valor de la celda
+                        Object value = table.getValueAt(i, j);
+                        System.out.print(value + "\t"); // Imprimir valores en la misma línea, separados por tabulaciones
+                    
+                    }
+                    System.out.println(); // Nueva línea al terminar cada fila
+                }
+
+                    // Crear un ArrayList de dos dimensiones para almacenar los valores de la tabla
+                    ArrayList<ArrayList<Object>> detalles = new ArrayList<>();
+
+                    // Recorrer las filas y columnas para obtener los valores
+                    for (int i = 0; i < rowCount; i++) {
+                        ArrayList<Object> fila = new ArrayList<>(); // Lista para almacenar la fila actual
+                        for (int j = 0; j < columnCount; j++) {
+                            // Obtener el valor de la celda
+                            Object value = table.getValueAt(i, j);
+                            fila.add(value); // Añadir el valor a la fila
+                        }
+                        detalles.add(fila); // Añadir la fila completa al ArrayList principal
+                    }
+                
+
+                // agregar venta
+                String msgg=(new VentaService()).createVenta(null, table, idCliente);
+
+                
+                JOptionPane.showMessageDialog(null, msgg);
+                }catch(Exception j){
+                    JOptionPane.showMessageDialog(null, "error: revise los datos");
+                    j.getStackTrace();
+                }
+                
+
+            break;
+            case "venta-cancelar":
+            //this.ven.getPanelVenta().setProductTable(new JTable());; 
+            //this.table = this.ven.getPanelVenta().getProductTable(); 
+            //this.model = (DefaultTableModel) table.getModel();
+            break;
+
             case "pedido-crear":
                 PanelDatosPedido crearPedido = new PanelDatosPedido();
                     ModalDialog.showModal(this.ven,
